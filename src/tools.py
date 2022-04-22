@@ -75,7 +75,7 @@ def get_topwords(logit_model, vectorizer, n_models:int = 15, n:int = 30, show_id
     
     df_lambda = pd.DataFrame(logit_model.coef_,
                          columns = vectorizer.get_feature_names(),
-                         index = [f'label_{x}' for x in range(1,n_models+1)]).round(3)
+                         index = [f'sdg_{x}' for x in range(1,n_models+1)]).round(3)
     
     if show_idxmax:
         display(df_lambda.idxmax(axis = 1))
