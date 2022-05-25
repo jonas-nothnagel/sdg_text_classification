@@ -157,7 +157,7 @@ def model_score_df_all(model_dict, category, folder_label, X_train, X_test, y_tr
     joblib.dump(best_clf, filename)
 
     #save best performing model without name appendix
-    #filename = '../models/tf_idf/'+folder_label+'/'+category+'_'+'model.sav'
+    #gfilename = '../models/tf_idf/'+folder_label+'/'+category+'_'+'model.sav'
     joblib.dump(best_clf, filename)      
     
     return results, best_f1
