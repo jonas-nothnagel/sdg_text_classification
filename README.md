@@ -6,4 +6,4 @@ Data comes from the amazing https://osdg.ai/ community!
 # Deep Learning BERT Model:
 
 UPDATE May 2022:
-Multi-class BERT classification model together with the dataset used for training and metrics is available on [HuggingFace Modelhub.]([url](https://huggingface.co/jonas/sdg_classifier_osdg))
+Multi-class BERT classification model together with the dataset used for training and metrics is available on [HuggingFace Modelhub.]([(https://huggingface.co/jonas/sdg_classifier_osdg)](https://huggingface.co/jonas/sdg_classifier_osdg)])
