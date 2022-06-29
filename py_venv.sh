@@ -9,7 +9,7 @@ COMMAND=$1
 
 # Folder in which you want to maintain all virtual environments
 # NOTE: no trailing / !
-VENVS_FOLDER=~/venvs
+VENVS_FOLDER=/data/nothnagel/venvs
 
 # You can manually change the venv name here
 ENVNAME=env1
