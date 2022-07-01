@@ -9,6 +9,12 @@ from datasets import Dataset
 from transformers import TrainingArguments
 from transformers import Trainer 
 
+from pip._internal import main as pipmain
+
+pipmain(['install', 'transformers'])
+pipmain(['install', 'datasets'])
+pipmain(['install', 'huggingface'])
+
 #eval metrics
 from sklearn.metrics import mean_absolute_error, accuracy_score
 
@@ -43,34 +49,17 @@ def map_labels(example):
     label_id = label2id[example["target"]]
     return {"labels": label_id, "label_name": id2label[label_id]}
 
-#%%
-#test
-#%%
-df_osdg = pd.read_csv("../data/processed/data_transformer.csv")
-dataset =  Dataset.from_pandas(df_osdg)
-
-
-# make labels
-labels, num_labels, id2label, label2id = make_labels()
-
-dataset = dataset.map(map_labels)
-
-# split to train and test data
-dataset = dataset.shuffle(seed=42)
-dataset = dataset.train_test_split(test_size=0.1)
-#%%
-
 if __name__ == '__main__':
     
     #load data
     df_osdg = pd.read_csv("../data/processed/data_transformer.csv")
-
+    df_osdg['target'] = df_osdg['target'].astype(str)
     dataset =  Dataset.from_pandas(df_osdg)
 
     # make labels
     labels, num_labels, id2label, label2id = make_labels()
     dataset = dataset.map(map_labels)
-    
+
     # split to train and test data
     dataset = dataset.shuffle(seed=42)
     dataset = dataset.train_test_split(test_size=0.1)
@@ -82,6 +71,9 @@ if __name__ == '__main__':
     # set up tokenizer
     tokenized_datasets = dataset.map(tokenize_function, batched=True)
     label2id = {v:k for k,v in id2label.items()}
+
+    encoded_str = tokenizer("Today I'm giving an NLP workshop at MLT")
+    print(encoded_str)
 
     # load pre-trained model
     model = AutoModelForSequenceClassification.from_pretrained(model_checkpoint, num_labels=num_labels, label2id=label2id, id2label=id2label)
@@ -119,3 +111,4 @@ if __name__ == '__main__':
     trainer.save_model()
 
     print("done!")
+# %%
