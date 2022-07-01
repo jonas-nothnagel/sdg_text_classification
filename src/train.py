@@ -17,8 +17,10 @@ from transformers import Trainer
 
 from argparse import ArgumentParser
 from sklearn.metrics import mean_absolute_error, accuracy_score
+import torch 
 
-
+torch.distributed.init_process_group('NCCL')
+torch.cuda.set_device
 #define functions
 
 # make labels
