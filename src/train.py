@@ -16,9 +16,8 @@ from transformers import TrainingArguments
 from transformers import Trainer 
 
 from argparse import ArgumentParser
-
-#eval metrics
 from sklearn.metrics import mean_absolute_error, accuracy_score
+
 
 #define functions
 
@@ -52,6 +51,8 @@ def map_labels(example):
     return {"labels": label_id, "label_name": id2label[label_id]}
 
 if __name__ == '__main__':
+    
+    torch.distributed.init_process_group('NCCL')
     
     #load data
     df_osdg = pd.read_csv("./data/processed/data_transformer.csv")
