@@ -1,0 +1,15 @@
+artifact_uri: file:///Volumes/GoogleDrive/My%20Drive/GIZ/coding/sdg_text_classification/src/mlruns/0/e7577c1dd9eb498ab84c4c91cf458d14/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+name: ''
+run_id: e7577c1dd9eb498ab84c4c91cf458d14
+run_uuid: e7577c1dd9eb498ab84c4c91cf458d14
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1656667486577
+status: 1
+tags: []
+user_id: jonas

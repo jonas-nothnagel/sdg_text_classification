@@ -1,3 +1,4 @@
+#%%
 #load dependencies 
 import pandas as pd
 import numpy as np
@@ -36,20 +37,43 @@ def compute_metrics(eval_pred):
 
     return {"Acc": accuracy_score(labels, predictions)}
 
+# map labels
+def map_labels(example):
+    # Shift labels to start from 0
+    label_id = label2id[example["target"]]
+    return {"labels": label_id, "label_name": id2label[label_id]}
+
 #%%
+#test
+#%%
+df_osdg = pd.read_csv("../data/processed/data_transformer.csv")
+dataset =  Dataset.from_pandas(df_osdg)
+
+
+# make labels
+labels, num_labels, id2label, label2id = make_labels()
+
+dataset = dataset.map(map_labels)
+
+# split to train and test data
+dataset = dataset.shuffle(seed=42)
+dataset = dataset.train_test_split(test_size=0.1)
+#%%
+
 if __name__ == '__main__':
     
     #load data
     df_osdg = pd.read_csv("../data/processed/data_transformer.csv")
-    df_osdg.head()  
 
-    # split to train and test data
     dataset =  Dataset.from_pandas(df_osdg)
-    dataset = dataset.shuffle(seed=42)
-    dataset = dataset.train_test_split(test_size=0.1)
 
     # make labels
     labels, num_labels, id2label, label2id = make_labels()
+    dataset = dataset.map(map_labels)
+    
+    # split to train and test data
+    dataset = dataset.shuffle(seed=42)
+    dataset = dataset.train_test_split(test_size=0.1)
 
     model_checkpoint = "distilbert-base-uncased"
     tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
