@@ -1,5 +1,11 @@
-#%%
 #load dependencies 
+
+from pip._internal import main as pipmain
+
+pipmain(['install', 'transformers'])
+pipmain(['install', 'datasets'])
+pipmain(['install', 'huggingface'])
+
 import pandas as pd
 import numpy as np
 import transformers
@@ -9,11 +15,6 @@ from datasets import Dataset
 from transformers import TrainingArguments
 from transformers import Trainer 
 
-from pip._internal import main as pipmain
-
-pipmain(['install', 'transformers'])
-pipmain(['install', 'datasets'])
-pipmain(['install', 'huggingface'])
 
 #eval metrics
 from sklearn.metrics import mean_absolute_error, accuracy_score
@@ -111,4 +112,3 @@ if __name__ == '__main__':
     trainer.save_model()
 
     print("done!")
-# %%
