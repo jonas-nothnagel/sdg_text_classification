@@ -52,8 +52,6 @@ def map_labels(example):
 
 if __name__ == '__main__':
     
-    torch.distributed.init_process_group('NCCL')
-    
     #load data
     df_osdg = pd.read_csv("./data/processed/data_transformer.csv")
     df_osdg['target'] = df_osdg['target'].astype(str)
