@@ -15,6 +15,7 @@ from datasets import Dataset
 from transformers import TrainingArguments
 from transformers import Trainer 
 
+from argparse import ArgumentParser
 
 #eval metrics
 from sklearn.metrics import mean_absolute_error, accuracy_score
@@ -53,7 +54,7 @@ def map_labels(example):
 if __name__ == '__main__':
     
     #load data
-    df_osdg = pd.read_csv("../data/processed/data_transformer.csv")
+    df_osdg = pd.read_csv("./data/processed/data_transformer.csv")
     df_osdg['target'] = df_osdg['target'].astype(str)
     dataset =  Dataset.from_pandas(df_osdg)
 
