@@ -13,7 +13,10 @@ from argparse import ArgumentParser
 from sklearn.metrics import mean_absolute_error, accuracy_score
 import torch 
 from torch import cuda
+from accelerate import Accelerator
 
+accelerator = Accelerator()
+device = accelerator.device
 
 #define functions
 
@@ -47,9 +50,6 @@ def map_labels(example):
     return {"labels": label_id, "label_name": id2label[label_id]}
 
 if __name__ == '__main__':
-    
-    device = 'cuda' if cuda.is_available() else 'cpu'
-    print(device)
 
     #load data
     df_osdg = pd.read_csv("./data/processed/data_transformer.csv")
