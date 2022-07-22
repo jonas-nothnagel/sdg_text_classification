@@ -1,5 +1,6 @@
 #!/bin/bash
 
-pip install requirements.txt 
+pip install -r requirements.txt 
 python ./src/test.py
+
 
