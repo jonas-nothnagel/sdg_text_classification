@@ -1,11 +1,5 @@
 #load dependencies 
 
-from pip._internal import main as pipmain
-
-pipmain(['install', 'transformers'])
-pipmain(['install', 'datasets'])
-pipmain(['install', 'huggingface'])
-
 import pandas as pd
 import numpy as np
 import transformers
