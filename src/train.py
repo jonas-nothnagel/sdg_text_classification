@@ -13,8 +13,6 @@ from argparse import ArgumentParser
 from sklearn.metrics import mean_absolute_error, accuracy_score
 import torch 
 
-torch.distributed.init_process_group('NCCL')
-torch.cuda.set_device
 #define functions
 
 # make labels
@@ -48,6 +46,9 @@ def map_labels(example):
 
 if __name__ == '__main__':
     
+    device = 'cuda' if cuda.is_available() else 'cpu'
+    print(device)
+
     #load data
     df_osdg = pd.read_csv("./data/processed/data_transformer.csv")
     df_osdg['target'] = df_osdg['target'].astype(str)
