@@ -12,6 +12,8 @@ from transformers import Trainer
 from argparse import ArgumentParser
 from sklearn.metrics import mean_absolute_error, accuracy_score
 import torch 
+from torch import cuda
+
 
 #define functions
 
