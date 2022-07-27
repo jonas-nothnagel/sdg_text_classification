@@ -18,6 +18,11 @@ from accelerate import Accelerator
 accelerator = Accelerator()
 device = accelerator.device
 
+import wandb
+wandb.login()
+
+wandb.init(project="sdg-classifier-bert-uncased")
+
 #define functions
 
 # make labels
@@ -84,6 +89,7 @@ if __name__ == '__main__':
     logging_steps = len(tokenized_datasets["train"]) // (batch_size * num_train_epochs)
 
     args = TrainingArguments(
+        report_to="wandb",  # enable logging to W&B
         output_dir="./models/"+f"{model_name}-finetuned-sdg",
         evaluation_strategy = "epoch",
         save_strategy = "epoch",

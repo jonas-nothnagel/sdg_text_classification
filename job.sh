@@ -2,5 +2,5 @@
 
 set -xe
 
-pip install transformers datasets accelerate
+pip install -r requirements.txt
 python ./src/train.py
