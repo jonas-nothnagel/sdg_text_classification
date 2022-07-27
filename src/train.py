@@ -108,6 +108,6 @@ if __name__ == '__main__':
 
     # train
     trainer.train()
-    trainer.save_model()
+    trainer.save_model("./models/")
 
     print("done!")
