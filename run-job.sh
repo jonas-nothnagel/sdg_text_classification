@@ -7,5 +7,5 @@ srun \
   --mem=24GB \
   --container-image=/data/enroot/nvcr.io_nvidia_pytorch_22.05-py3.sqsh \
   --container-workdir=`pwd` \
-  --container-mounts=/data/steffen/sdg_text_classification:/data/steffen/sdg_text_classification \
+  --container-mounts=/data/nothnagel/sdg_text_classification:/data/nothnagel/sdg_text_classification \
   ./job.sh
