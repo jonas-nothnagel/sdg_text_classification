@@ -64,7 +64,7 @@ if __name__ == '__main__':
     dataset = dataset.shuffle(seed=42)
     dataset = dataset.train_test_split(test_size=0.1)
 
-    model_checkpoint = "distilbert-base-uncased"
+    model_checkpoint = "bert-base-uncased"
     tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
     print(tokenizer.vocab_size)
 
@@ -80,12 +80,12 @@ if __name__ == '__main__':
 
     model_name = model_checkpoint.split("/")[-1]
     batch_size = 32
-    num_train_epochs = 7
+    num_train_epochs = 15
     logging_steps = len(tokenized_datasets["train"]) // (batch_size * num_train_epochs)
 
     args = TrainingArguments(
-        output_dir=f"{model_name}-finetuned-sdg",
-    evaluation_strategy = "epoch",
+        output_dir="./models/"+f"{model_name}-finetuned-sdg",
+        evaluation_strategy = "epoch",
         save_strategy = "epoch",
         learning_rate=6e-7,
         per_device_train_batch_size=batch_size,
@@ -108,6 +108,6 @@ if __name__ == '__main__':
 
     # train
     trainer.train()
-    trainer.save_model("./models/")
+    trainer.save_model()
 
     print("done!")
