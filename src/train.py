@@ -19,7 +19,7 @@ accelerator = Accelerator()
 device = accelerator.device
 
 import wandb
-wandb.login()
+wandb.login(key=["771c73c3100b69dffd05bcbb7b8a4a4f02c73f4a"])
 
 wandb.init(project="sdg-classifier-bert-uncased")
 
