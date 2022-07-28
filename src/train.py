@@ -18,9 +18,16 @@ from accelerate import Accelerator
 accelerator = Accelerator()
 device = accelerator.device
 
+# this is for tracking the experiment. Comment it out if you do not wish to log the training or you do not have
+# a wandb account. We will also use wandb to apply hyperparameter tuning. 
+# Note that the API is not pushed on github for security reasons. Either create a txt file with your wandb API key
+# and import it or directly specify the api key under key=. 
 import wandb
-wandb.login(key="771c73c3100b69dffd05bcbb7b8a4a4f02c73f4a")
-wandb.init(project="sdg-classifier-bert-uncased")
+from pathlib import Path
+wandb_api_key = Path('data/wandb_api_key.txt').read_text()
+
+wandb.login(key=wandb_api_key)
+wandb.init(project="sdg-classifier-roberta-base")
 
 #define functions
 
@@ -68,7 +75,7 @@ if __name__ == '__main__':
     dataset = dataset.shuffle(seed=42)
     dataset = dataset.train_test_split(test_size=0.1)
 
-    model_checkpoint = "bert-base-uncased"
+    model_checkpoint = "roberta-base"
     tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
     print(tokenizer.vocab_size)
 
@@ -83,7 +90,7 @@ if __name__ == '__main__':
     model = AutoModelForSequenceClassification.from_pretrained(model_checkpoint, num_labels=num_labels, label2id=label2id, id2label=id2label)
 
     model_name = model_checkpoint.split("/")[-1]
-    batch_size = 32
+    batch_size = 16
     num_train_epochs = 15
     logging_steps = len(tokenized_datasets["train"]) // (batch_size * num_train_epochs)
 
