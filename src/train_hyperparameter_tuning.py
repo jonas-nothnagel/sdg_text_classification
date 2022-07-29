@@ -84,19 +84,21 @@ def map_labels(example):
     return {"labels": label_id, "label_name": id2label[label_id]}
 
 def model_init():
+    model_checkpoint = "roberta-base"
     model = AutoModelForSequenceClassification.from_pretrained(
         model_checkpoint,
         num_labels=num_labels, 
         label2id=label2id, 
         id2label=id2label
     )
-    return model
+    
+    return model 
 
 # define hyperparameters tunig - set sweep config for wanb
 
 # method
 sweep_config = {
-    'method': 'grid'
+    'method': 'random'
 }
 
 # hyperparameters
@@ -175,8 +177,8 @@ if __name__ == '__main__':
     dataset = dataset.train_test_split(test_size=0.1)
 
     model_checkpoint = "roberta-base"
+    model_name = model_checkpoint.split("/")[-1]
     tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
-    print(tokenizer.vocab_size)
 
     # set up tokenizer
     tokenized_datasets = dataset.map(tokenize_function, batched=True)
