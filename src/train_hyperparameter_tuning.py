@@ -29,7 +29,7 @@ from pathlib import Path
 wandb_api_key = Path('data/wandb_api_key.txt').read_text()
 
 wandb.login(key=wandb_api_key)
-wandb.init(project="sdg-classifier-roberta-base")
+#wandb.init(project="sdg-classifier-roberta-base")
 
 #define functions
 
