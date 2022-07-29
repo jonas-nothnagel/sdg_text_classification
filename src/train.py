@@ -15,6 +15,8 @@ import torch
 from torch import cuda
 from accelerate import Accelerator
 
+from datasets import load_metric
+
 accelerator = Accelerator()
 device = accelerator.device
 
@@ -54,11 +56,13 @@ def compute_metrics(eval_pred):
 
     return {"Acc": accuracy_score(labels, predictions)}
 
+
 # map labels
 def map_labels(example):
     # Shift labels to start from 0
     label_id = label2id[example["target"]]
     return {"labels": label_id, "label_name": id2label[label_id]}
+
 
 if __name__ == '__main__':
 
