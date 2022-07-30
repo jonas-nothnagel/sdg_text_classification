@@ -1,0 +1,57 @@
+wandb_version: 1
+
+__doc__:
+  desc: null
+  value: "\n    Config object\n\n    Config objects are intended to hold all of the\
+    \ hyperparameters associated with\n    a wandb run and are saved with the run\
+    \ object when `wandb.init` is called.\n\n    We recommend setting `wandb.config`\
+    \ once at the top of your training experiment or\n    setting the config as a\
+    \ parameter to init, ie. `wandb.init(config=my_config_dict)`\n\n    You can create\
+    \ a file called `config-defaults.yaml`, and it will automatically be\n    loaded\
+    \ into `wandb.config`. See https://docs.wandb.com/library/config#file-based-configs.\n\
+    \n    You can also load a config YAML file with your custom name and pass the\
+    \ filename\n    into `wandb.init(config=\"special_config.yaml\")`.\n    See https://docs.wandb.com/library/config#file-based-configs.\n\
+    \n    Examples:\n        Basic usage\n        ```python\n        wandb.config.epochs\
+    \ = 4\n        wandb.init()\n        for x in range(wandb.config.epochs):\n  \
+    \          # train\n        ```\n\n        Using wandb.init to set config\n  \
+    \      ```python\n        wandb.init(config={\"epochs\": 4, \"batch_size\": 32})\n\
+    \        for x in range(wandb.config.epochs):\n            # train\n        ```\n\
+    \n        Nested configs\n        ```python\n        wandb.config['train']['epochs']\
+    \ = 4\n        wandb.init()\n        for x in range(wandb.config['train']['epochs']):\n\
+    \            # train\n        ```\n\n        Using absl flags\n        ```python\n\
+    \        flags.DEFINE_string(‘model’, None, ‘model to run’) # name, default, help\n\
+    \        wandb.config.update(flags.FLAGS) # adds all absl flags to config\n  \
+    \      ```\n\n        Argparse flags\n        ```python\n        wandb.init()\n\
+    \        wandb.config.epochs = 4\n\n        parser = argparse.ArgumentParser()\n\
+    \        parser.add_argument('-b', '--batch-size', type=int, default=8, metavar='N',\n\
+    \                            help='input batch size for training (default: 8)')\n\
+    \        args = parser.parse_args()\n        wandb.config.update(args)\n     \
+    \   ```\n\n        Using TensorFlow flags (deprecated in tensorflow v2)\n    \
+    \    ```python\n        flags = tf.app.flags\n        flags.DEFINE_string('data_dir',\
+    \ '/tmp/data')\n        flags.DEFINE_integer('batch_size', 128, 'Batch size.')\n\
+    \        wandb.config.update(flags.FLAGS)  # adds all of the tensorflow flags\
+    \ to config\n        ```\n    "
+_name:
+  desc: null
+  value: wandb.config
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.12.21
+    is_jupyter_run: true
+    is_kaggle_kernel: false
+    python_version: 3.9.7
+    start_time: 1659138627
+    t:
+      1:
+      - 55
+      2:
+      - 55
+      3:
+      - 2
+      - 16
+      4: 3.9.7
+      5: 0.12.21
+      8:
+      - 1
+      - 5

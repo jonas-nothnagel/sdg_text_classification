@@ -1,0 +1,4 @@
+name: gis
+channels:
+  - defaults
+prefix: /opt/anaconda3/envs/gis

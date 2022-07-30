@@ -29,7 +29,7 @@ from pathlib import Path
 wandb_api_key = Path('data/wandb_api_key.txt').read_text()
 
 wandb.login(key=wandb_api_key)
-#wandb.init(project="sdg-classifier-roberta-base")
+#git wandb.init(project="sdg-classifier-roberta-base")
 
 #define functions
 
@@ -220,6 +220,8 @@ if __name__ == '__main__':
     # trainer.train()
     # trainer.save_model()
 
-    train()
+    #train()
 
+    wandb.agent(sweep_id, train, count=20)
+    
     print("done!")

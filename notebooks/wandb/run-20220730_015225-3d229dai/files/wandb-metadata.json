@@ -1,0 +1,21 @@
+{
+    "os": "macOS-10.16-x86_64-i386-64bit",
+    "python": "3.9.7",
+    "heartbeatAt": "2022-07-29T23:56:30.655611",
+    "startedAt": "2022-07-29T23:52:25.550175",
+    "docker": null,
+    "cpu_count": 8,
+    "cuda": null,
+    "args": null,
+    "state": "running",
+    "program": "notebooks/classification_01.ipynb",
+    "root": "/Volumes/GoogleDrive/My Drive/GIZ/coding/sdg_text_classification",
+    "git": {
+        "remote": "https://github.com/jonas-nothnagel/sdg_text_classification.git",
+        "commit": "d4f56568e40cd6d21a5a17100f490a899829821f"
+    },
+    "email": "jonas.nothnagel@gmail.com",
+    "host": "vpn-pool-108.sb.dfki.de",
+    "username": "jonas",
+    "executable": "/Users/jonas/opt/anaconda3/envs/gis/bin/python"
+}
