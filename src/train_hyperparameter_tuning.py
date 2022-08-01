@@ -49,12 +49,12 @@ def tokenize_function(examples):
 
     return tokenizer(examples["text_clean"],  truncation=True, padding=True)
 
-# define metrics
-# def compute_metrics(eval_pred):
-#     predictions, labels = eval_pred
-#     predictions = np.argmax(predictions, axis=1)
 
-#     return {"Acc": accuracy_score(labels, predictions)}
+def collate_fn(examples):
+  text_clean = torch.stack([example['text_clean'] for example in examples])
+  labels = torch.tensor([example['target'] for example in examples])
+  return {'text_clean': text_clean, 'target': labels}
+
 
 def compute_metrics_fn(eval_preds):
   metrics = dict()
@@ -151,6 +151,7 @@ def train(config=None):
             #model = model,
             model_init=model_init,
             args=training_args,
+            data_collator=collate_fn,
             train_dataset=tokenized_datasets["train"],
             eval_dataset=tokenized_datasets["test"],
             tokenizer=tokenizer,
@@ -183,7 +184,7 @@ if __name__ == '__main__':
     tokenizer = AutoTokenizer.from_pretrained(model_name, truncation=True, padding=True)
     # set up tokenizer
     tokenized_datasets = dataset.map(tokenize_function, batched=True)
-    
+
     label2id = {v:k for k,v in id2label.items()}
 
     wandb.agent(sweep_id, train, count=20)
