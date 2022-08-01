@@ -52,8 +52,8 @@ def tokenize_function(examples):
 
 def collate_fn(examples):
   text_clean = torch.stack([example['text_clean'] for example in examples])
-  labels = torch.tensor([example['target'] for example in examples])
-  return {'text_clean': text_clean, 'target': labels}
+  labels = torch.tensor([example['labels'] for example in examples])
+  return {'text_clean': text_clean, 'labels': labels}
 
 
 def compute_metrics_fn(eval_preds):
