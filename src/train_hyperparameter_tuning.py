@@ -181,7 +181,6 @@ if __name__ == '__main__':
     #model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=num_labels, label2id=label2id, id2label=id2label)
     model_name = model_name.split("/")[-1]
     tokenizer = AutoTokenizer.from_pretrained(model_name, padding=True, trunctation=True)
-    data_collator = DataCollatorForTokenClassification(tokenizer)
 
     # set up tokenizer
     tokenized_datasets = dataset.map(tokenize_function, batched=True)
