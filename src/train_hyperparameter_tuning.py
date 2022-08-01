@@ -8,7 +8,6 @@ from transformers import AutoModelForSequenceClassification
 from datasets import Dataset
 from transformers import TrainingArguments
 from transformers import Trainer 
-from transformers import DataCollatorForTokenClassification
 
 from argparse import ArgumentParser
 from sklearn.metrics import mean_absolute_error, accuracy_score
@@ -48,7 +47,7 @@ def make_labels():
 # set-up tokenizer
 def tokenize_function(examples):
 
-    return tokenizer(examples["text_clean"], padding="max_length", truncation=True,max_length=135)
+    return tokenizer(examples["text_clean"], padding=True, truncation=True)
 
 # define metrics
 # def compute_metrics(eval_pred):
@@ -151,7 +150,6 @@ def train(config=None):
         trainer = Trainer(
             #model = model,
             model_init=model_init,
-            data_collator = data_collator,
             args=training_args,
             train_dataset=tokenized_datasets["train"],
             eval_dataset=tokenized_datasets["test"],
@@ -182,7 +180,7 @@ if __name__ == '__main__':
     # load pre-trained model
     #model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=num_labels, label2id=label2id, id2label=id2label)
     model_name = model_name.split("/")[-1]
-    tokenizer = AutoTokenizer.from_pretrained(model_name, padding=True)
+    tokenizer = AutoTokenizer.from_pretrained(model_name, padding=True, trunctation=True)
     data_collator = DataCollatorForTokenClassification(tokenizer)
 
     # set up tokenizer
