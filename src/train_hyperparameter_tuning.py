@@ -47,7 +47,7 @@ def make_labels():
 # set-up tokenizer
 def tokenize_function(examples):
 
-    return tokenizer(examples["text_clean"], padding=True, truncation=True)
+    return tokenizer(examples["text_clean"],  truncation=True, padding=True)
 
 # define metrics
 # def compute_metrics(eval_pred):
@@ -174,16 +174,16 @@ if __name__ == '__main__':
 
     # split to train and test data
     dataset = dataset.shuffle(seed=42)
-    dataset = dataset.train_test_split(test_size=0.1)
+    dataset = dataset.train_test_split(test_size=0.2)
 
     model_name = "roberta-base"
     # load pre-trained model
     #model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=num_labels, label2id=label2id, id2label=id2label)
     model_name = model_name.split("/")[-1]
-    tokenizer = AutoTokenizer.from_pretrained(model_name, padding=True, trunctation=True)
-
+    tokenizer = AutoTokenizer.from_pretrained(model_name, truncation=True, padding=True)
     # set up tokenizer
     tokenized_datasets = dataset.map(tokenize_function, batched=True)
+    
     label2id = {v:k for k,v in id2label.items()}
 
     wandb.agent(sweep_id, train, count=20)
