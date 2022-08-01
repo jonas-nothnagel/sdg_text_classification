@@ -1,6 +1,5 @@
 #load dependencies 
 
-from tkinter import _Padding
 import pandas as pd
 import numpy as np
 import transformers
