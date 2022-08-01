@@ -1,5 +1,6 @@
 #load dependencies 
 
+from tkinter import _Padding
 import pandas as pd
 import numpy as np
 import transformers
@@ -8,11 +9,12 @@ from transformers import AutoModelForSequenceClassification
 from datasets import Dataset
 from transformers import TrainingArguments
 from transformers import Trainer 
+from transformers import DataCollatorForTokenClassification
 
 from argparse import ArgumentParser
 from sklearn.metrics import mean_absolute_error, accuracy_score
 import torch 
-from torch import cuda
+from torch import cuda, true_divide
 from accelerate import Accelerator
 
 from datasets import load_metric
@@ -148,8 +150,9 @@ def train(config=None):
 
         # define training loop
         trainer = Trainer(
-            model = model,
-            #model_init=model_init,
+            #model = model,
+            model_init=model_init,
+            data_collator = data_collator,
             args=training_args,
             train_dataset=tokenized_datasets["train"],
             eval_dataset=tokenized_datasets["test"],
@@ -178,51 +181,14 @@ if __name__ == '__main__':
 
     model_name = "roberta-base"
     # load pre-trained model
-    model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=num_labels, label2id=label2id, id2label=id2label)
+    #model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=num_labels, label2id=label2id, id2label=id2label)
     model_name = model_name.split("/")[-1]
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(model_name, padding=True)
+    data_collator = DataCollatorForTokenClassification(tokenizer)
 
     # set up tokenizer
     tokenized_datasets = dataset.map(tokenize_function, batched=True)
     label2id = {v:k for k,v in id2label.items()}
-
-    # # load pre-trained model
-    # model = AutoModelForSequenceClassification.from_pretrained(model_checkpoint, num_labels=num_labels, label2id=label2id, id2label=id2label)
-
-    # model_name = model_checkpoint.split("/")[-1]
-    # batch_size = 16
-    # num_train_epochs = 15
-    # logging_steps = len(tokenized_datasets["train"]) // (batch_size * num_train_epochs)
-
-    # args = TrainingArguments(
-    #     report_to="wandb",  # enable logging to W&B
-    #     output_dir="./models/"+f"{model_name}-finetuned-sdg",
-    #     evaluation_strategy = "epoch",
-    #     save_strategy = "epoch",
-    #     learning_rate=6e-7,
-    #     per_device_train_batch_size=batch_size,
-    #     per_device_eval_batch_size=batch_size,
-    #     num_train_epochs=num_train_epochs,
-    #     #weight_decay=0.005,
-    #     logging_steps=logging_steps,
-    #     #push_to_hub=True,
-    # )
-
-    # # specify trainer
-    # trainer = Trainer(
-    #     model,
-    #     args,
-    #     train_dataset=tokenized_datasets["train"],
-    #     eval_dataset=tokenized_datasets["test"],
-    #     tokenizer=tokenizer,
-    #     compute_metrics=compute_metrics
-    # )
-
-    # # train
-    # trainer.train()
-    # trainer.save_model()
-
-    #train()
 
     wandb.agent(sweep_id, train, count=20)
 
