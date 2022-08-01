@@ -148,8 +148,8 @@ def train(config=None):
 
         # define training loop
         trainer = Trainer(
-            # model,
-            model_init=model_init,
+            model = model,
+            #model_init=model_init,
             args=training_args,
             train_dataset=tokenized_datasets["train"],
             eval_dataset=tokenized_datasets["test"],
@@ -176,9 +176,11 @@ if __name__ == '__main__':
     dataset = dataset.shuffle(seed=42)
     dataset = dataset.train_test_split(test_size=0.1)
 
-    model_checkpoint = "roberta-base"
-    model_name = model_checkpoint.split("/")[-1]
-    tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
+    model_name = "roberta-base"
+    # load pre-trained model
+    model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=num_labels, label2id=label2id, id2label=id2label)
+    model_name = model_name.split("/")[-1]
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
 
     # set up tokenizer
     tokenized_datasets = dataset.map(tokenize_function, batched=True)
@@ -223,5 +225,5 @@ if __name__ == '__main__':
     #train()
 
     wandb.agent(sweep_id, train, count=20)
-    
+
     print("done!")
