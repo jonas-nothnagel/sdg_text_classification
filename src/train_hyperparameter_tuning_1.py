@@ -47,7 +47,7 @@ def make_labels():
 # set-up tokenizer
 def tokenize_function(examples):
 
-    return tokenizer(examples["text_clean"],  truncation=True, padding=True)
+    return tokenizer(examples["text_clean"], padding="max_length", truncation=True, max_length=135)
 
 
 def collate_fn(examples):
@@ -172,6 +172,7 @@ if __name__ == '__main__':
     # make labels
     labels, num_labels, id2label, label2id = make_labels()
     dataset = dataset.map(map_labels)
+    label2id = {v:k for k,v in id2label.items()}
 
     # split to train and test data
     dataset = dataset.shuffle(seed=42)
@@ -181,12 +182,11 @@ if __name__ == '__main__':
     # load pre-trained model
     #model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=num_labels, label2id=label2id, id2label=id2label)
     model_name = model_name.split("/")[-1]
-    tokenizer = AutoTokenizer.from_pretrained(model_name, truncation=True, padding=True)
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
     # set up tokenizer
     tokenized_datasets = dataset.map(tokenize_function, batched=True)
 
-    label2id = {v:k for k,v in id2label.items()}
-
+    # start sweep 
     wandb.agent(sweep_id, train, count=20)
 
     print("done!")
