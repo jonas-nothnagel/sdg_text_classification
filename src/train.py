@@ -47,7 +47,7 @@ def make_labels():
 # set-up tokenizer
 def tokenize_function(examples):
 
-    return tokenizer(examples["text_clean"], padding="max_length", truncation=True,max_length=135)
+    return tokenizer(examples["text_clean"], padding="max_length", truncation=True, max_length=135)
 
 # define metrics
 def compute_metrics(eval_pred):

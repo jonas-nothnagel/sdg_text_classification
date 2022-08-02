@@ -2,4 +2,4 @@
 
 set -xe
 pip install -r requirements.txt
-python ./src/train_hyperparameter_tuning.py
+python ./src/train_hyperparameter_tuning_1.py

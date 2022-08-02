@@ -33,27 +33,10 @@ wandb.login(key=wandb_api_key)
 
 #define functions
 
-# make labels
-def make_labels():
-
-    labels = df_osdg['target'].unique()
-    labels.sort()
-    num_labels = len(labels)
-    id2label = {idx:label for idx, label in enumerate(labels)}
-    label2id = {label:idx for idx, label in enumerate(labels)}
-
-    return labels, num_labels, id2label, label2id
-
 # set-up tokenizer
 def tokenize_function(examples):
 
     return tokenizer(examples["text_clean"],  truncation=True, padding=True)
-
-
-def collate_fn(examples):
-  text_clean = torch.stack([example['text_clean'] for example in examples])
-  labels = torch.tensor([example['labels'] for example in examples])
-  return {'text_clean': text_clean, 'labels': labels}
 
 
 def compute_metrics_fn(eval_preds):
@@ -76,12 +59,6 @@ def compute_metrics_fn(eval_preds):
 
 
   return metrics
-
-# map labels
-def map_labels(example):
-    # Shift labels to start from 0
-    label_id = label2id[example["target"]]
-    return {"labels": label_id, "label_name": id2label[label_id]}
 
 def model_init():
     model_checkpoint = "roberta-base"
@@ -151,7 +128,6 @@ def train(config=None):
             #model = model,
             model_init=model_init,
             args=training_args,
-            data_collator=collate_fn,
             train_dataset=tokenized_datasets["train"],
             eval_dataset=tokenized_datasets["test"],
             tokenizer=tokenizer,
@@ -166,12 +142,8 @@ if __name__ == '__main__':
 
     #load data
     df_osdg = pd.read_csv("./data/processed/data_transformer.csv")
-    df_osdg['target'] = df_osdg['target'].astype(str)
+    df_osdg['target'] = df_osdg['target'].astype(int)
     dataset =  Dataset.from_pandas(df_osdg)
-
-    # make labels
-    labels, num_labels, id2label, label2id = make_labels()
-    dataset = dataset.map(map_labels)
 
     # split to train and test data
     dataset = dataset.shuffle(seed=42)
